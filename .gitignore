@@ -1,7 +1,10 @@
 __pycache__/
-*.py[cod]
-.pytest_cache/
-*.egg-info/
+*.pyc
+*.pyo
+*.pyd
+
 .venv/
-venv/
-.DS_Store
+
+.vscode/
+
+data/save.json

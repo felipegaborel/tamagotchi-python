@@ -1,4 +1,28 @@
+import os
+
 from ui.colors import Colors
+
+
+def limpar_tela():
+    os.system("cls" if os.name == "nt" else "clear")
+
+
+def mostrar_menu():
+
+    print("=" * 50)
+    print("🐾 TAMAGOTCHI PYTHON 🐾")
+    print("=" * 50)
+
+    print("\n1 🍖 Alimentar")
+    print("2 🎾 Brincar")
+    print("3 😴 Dormir")
+    print("4 🚿 Dar banho")
+    print("5 📊 Mostrar Status")
+    print("6 🚪 Sair")
+
+    print("\n" + "=" * 50)
+
+    return input("Escolha uma opção: ")
 
 
 class Menu:

@@ -1,18 +1,55 @@
-# Tamagotchi Python
+# 🐶 Tamagotchi Python
 
-A small Python project for a simple Tamagotchi-style pet simulator.
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-## Structure
+## 📖 Sobre
 
-- `src/` - application source code
-- `tests/` - unit tests
-- `docs/` - documentation
-- `data/` - project data
-- `images/` - images and assets
-- `notebook/` - notebooks
+Projeto desenvolvido em Python utilizando Programação Orientada a Objetos.
 
-## Run tests
+O objetivo é simular um animal virtual inspirado no clássico Tamagotchi, aplicando boas práticas de desenvolvimento, modularização do código, persistência de dados e testes automatizados.
 
-```bash
-python -m unittest discover -s tests -v
+---
+
+## 🚀 Tecnologias
+
+- Python
+- Programação Orientada a Objetos
+- JSON
+- PyTest
+- Colorama
+
+---
+
+## 📂 Estrutura
+
+```text
+src/
+tests/
+images/
+docs/
+data/
 ```
+
+---
+
+## 🚀 Funcionalidades
+
+- Alimentar
+- Dormir
+- Brincar
+- Passear
+- Treinar
+- Sistema de XP
+- Sistema de Níveis
+- Loja
+- Eventos Aleatórios
+- Save Game
+- Estatísticas
+
+---
+
+## 👨‍💻 Autor
+
+Felipe Gabriel Barbosa
