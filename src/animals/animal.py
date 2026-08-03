@@ -1,3 +1,6 @@
+from src.game.achievements import AchievementSystem
+
+
 class Animal:
     def __init__(self, name: str):
         self.name = name
@@ -11,6 +14,8 @@ class Animal:
         self.energia = self.energy
         self.saude = 10
         self.esta_vivo = True
+        self.nivel = 1
+        self.xp = 0
 
     def _sync_attributes(self):
         self.nome = self.name
@@ -81,4 +86,9 @@ class Animal:
         print(f"⚡ Energia    {self.barra(self.energia)} {self.energia}")
         print(f"🍖 Fome       {self.barra(self.fome)} {self.fome}")
         print(f"😊 Felicidade {self.barra(self.felicidade)} {self.felicidade}")
+        print(f"⭐ Nível: {self.nivel}")
+        print(f"✨ XP: {self.xp}/100")
+        print("\n🏆 Conquistas")
+        for conquista in AchievementSystem.verificar(self):
+            print(conquista)
         print("=" * 50)

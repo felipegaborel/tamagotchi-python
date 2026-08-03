@@ -8,12 +8,16 @@ from src.animals.cat import Cat
 from src.animals.dog import Dog
 from src.animals.dragon import Dragon
 from src.animals.rabbit import Rabbit
+from src.game.game import Game
+from src.game.level import LevelSystem
+from src.ui.banner import BANNER
 from src.ui.menu import limpar_tela, mostrar_menu
 
 init(autoreset=True)
 
 
 def main() -> None:
+    print(BANNER)
     print(Fore.GREEN + "=" * 50)
     print(Fore.CYAN + "🐶 TAMAGOTCHI PYTHON")
     print(Fore.GREEN + "=" * 50)
@@ -38,9 +42,15 @@ def main() -> None:
     }
 
     pet = animais.get(opcao, Dog)(nome)
+    game = Game()
 
     while True:
         limpar_tela()
+
+        game.verificar_vida(pet)
+
+        if not pet.vivo:
+            break
 
         pet.mostrar_status()
 
