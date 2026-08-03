@@ -31,6 +31,15 @@ class Game:
             print(self.events.pet_encontrou_brinquedo())
 
     def run(self):
+        print("Digite o nome do seu pet")
+        nome = input(">> ").strip()
+        if not nome:
+            nome = "Mochi"
+
+        self.animal = Animal(nome)
+        self.actions = Actions(self.animal)
+        self.events = Events(self.animal)
+
         print("Escolha a dificuldade")
         print("1 - Fácil")
         print("2 - Normal")
