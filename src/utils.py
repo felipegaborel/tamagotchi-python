@@ -1,2 +1,3 @@
-def clamp(value: int, minimum: int, maximum: int) -> int:
-    return max(minimum, min(maximum, value))
+from utils.helpers import clamp
+
+__all__ = ["clamp"]

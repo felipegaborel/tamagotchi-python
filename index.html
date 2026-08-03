@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tamagotchi Python</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --card: #1f2937;
+      --text: #f8fafc;
+      --accent: #22c55e;
+      --danger: #ef4444;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .app {
+      width: min(720px, 100%);
+      background: rgba(17, 24, 39, 0.95);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      text-align: center;
+    }
+
+    .pet-card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 18px 0;
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .status-item {
+      background: #334155;
+      padding: 12px;
+      border-radius: 10px;
+    }
+
+    .status-item span {
+      display: block;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      margin-bottom: 6px;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+    }
+
+    button {
+      padding: 12px 14px;
+      border: none;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #052e16;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button.secondary { background: #38bdf8; color: #082f49; }
+    button.warning { background: #facc15; color: #3f2f00; }
+    button.danger { background: #f87171; color: #450a0a; }
+
+    #message {
+      margin-top: 16px;
+      min-height: 48px;
+      background: #0b1220;
+      border-radius: 10px;
+      padding: 12px;
+      color: #e2e8f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>🐶 Tamagotchi Python</h1>
+    <div class="pet-card">
+      <div id="pet-name">Mochi</div>
+      <div class="status-grid">
+        <div class="status-item"><span>Energia</span><strong id="energia">5</strong></div>
+        <div class="status-item"><span>Fome</span><strong id="fome">5</strong></div>
+        <div class="status-item"><span>Felicidade</span><strong id="felicidade">5</strong></div>
+        <div class="status-item"><span>Saúde</span><strong id="saude">10</strong></div>
+        <div class="status-item"><span>Idade</span><strong id="idade">0</strong></div>
+        <div class="status-item"><span>Vivo</span><strong id="esta_vivo">Sim</strong></div>
+      </div>
+    </div>
+
+    <div class="pet-card">
+      <div><strong>Escolha a dificuldade</strong></div>
+      <div class="actions" style="margin-top: 12px;">
+        <button onclick="setDificuldade(1)">1 - Fácil</button>
+        <button class="secondary" onclick="setDificuldade(2)">2 - Normal</button>
+        <button class="danger" onclick="setDificuldade(3)">3 - Difícil</button>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button onclick="alimentar()">Alimentar</button>
+      <button class="secondary" onclick="brincar()">Brincar</button>
+      <button class="secondary" onclick="dormir()">Dormir</button>
+      <button class="warning" onclick="darBanho()">Dar banho</button>
+      <button class="danger" onclick="curar()">Curar</button>
+    </div>
+
+    <div id="message">Escolha uma ação para interagir com seu pet.</div>
+  </div>
+
+  <script>
+    const state = {
+      nome: 'Mochi',
+      idade: 0,
+      energia: 5,
+      fome: 5,
+      felicidade: 5,
+      saude: 10,
+      esta_vivo: true,
+      velocidade: 1,
+    };
+
+    function render() {
+      document.getElementById('pet-name').textContent = state.nome;
+      document.getElementById('energia').textContent = state.energia;
+      document.getElementById('fome').textContent = state.fome;
+      document.getElementById('felicidade').textContent = state.felicidade;
+      document.getElementById('saude').textContent = state.saude;
+      document.getElementById('idade').textContent = state.idade;
+      document.getElementById('esta_vivo').textContent = state.esta_vivo ? 'Sim' : 'Não';
+    }
+
+    function setMessage(text) {
+      document.getElementById('message').textContent = text;
+    }
+
+    function setDificuldade(nivel) {
+      state.velocidade = nivel === 1 ? 1 : nivel === 2 ? 2 : 3;
+      setMessage(`Dificuldade definida: ${state.velocidade}.`);
+      render();
+    }
+
+    function aplicarDecaimento() {
+      state.energia = Math.max(0, state.energia - state.velocidade);
+      state.fome = Math.min(10, state.fome + state.velocidade);
+      state.felicidade = Math.max(0, state.felicidade - state.velocidade);
+      state.idade += 1;
+      render();
+    }
+
+    function alimentar() {
+      state.fome = Math.min(10, state.fome + 1);
+      state.energia = Math.min(10, state.energia + 1);
+      setMessage('Seu pet foi alimentado.');
+      render();
+    }
+
+    function brincar() {
+      state.felicidade = Math.min(10, state.felicidade + 1);
+      state.energia = Math.max(0, state.energia - 1);
+      setMessage('Seu pet brincou e ficou feliz.');
+      render();
+    }
+
+    function dormir() {
+      state.energia = Math.min(10, state.energia + 2);
+      state.idade += 1;
+      setMessage('Seu pet dormiu.');
+      render();
+    }
+
+    setInterval(aplicarDecaimento, 3000);
+
+    function darBanho() {
+      state.saude = Math.min(10, state.saude + 1);
+      setMessage('Seu pet tomou banho.');
+      render();
+    }
+
+    function curar() {
+      state.saude = Math.min(10, state.saude + 2);
+      state.esta_vivo = true;
+      setMessage('Seu pet foi curado.');
+      render();
+    }
+
+    render();
+  </script>
+</body>
+</html>

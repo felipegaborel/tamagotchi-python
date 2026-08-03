@@ -1,5 +1,5 @@
-from animal import Animal
-from menu import Menu
+from animals.animal import Animal
+from ui.menu import Menu
 
 
 class Game:

@@ -4,7 +4,7 @@ import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from tamagotchi import Tamagotchi
+from animals.animal import Animal as Tamagotchi
 
 
 class TamagotchiTests(unittest.TestCase):
