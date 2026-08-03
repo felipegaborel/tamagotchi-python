@@ -14,6 +14,16 @@ def main() -> None:
     print("\nProjeto inicializado com sucesso!")
     print(Style.BRIGHT + "Bem-vindo ao Tamagotchi Python!\n")
 
+    nome = input("\nDigite o nome do seu pet: ")
+
+    print("\nEscolha um animal:")
+    print("1 - Cachorro")
+    print("2 - Gato")
+    print("3 - Coelho")
+    print("4 - Dragão")
+
+    opcao = input("\nSua escolha: ")
+
 
 if __name__ == "__main__":
     main()
