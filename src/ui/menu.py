@@ -39,10 +39,18 @@ class Menu:
     def mostrar_status(self, animal):
         print(f"{Colors.CYAN}{'=' * 40}{Colors.RESET}")
         print(f"{Colors.YELLOW}Nome:{Colors.RESET} {animal.nome}")
-        print(f"{Colors.RED}❤️ Saúde:{Colors.RESET} {animal.barra(animal.saude)} {animal.saude}")
-        print(f"{Colors.GREEN}🍖 Fome:{Colors.RESET} {animal.barra(animal.fome)} {animal.fome}")
-        print(f"{Colors.BLUE}⚡ Energia:{Colors.RESET} {animal.barra(animal.energia)} {animal.energia}")
-        print(f"{Colors.MAGENTA}😊 Felicidade:{Colors.RESET} {animal.barra(animal.felicidade)} {animal.felicidade}")
+        print(
+            f"{Colors.RED}❤️ Saúde:{Colors.RESET} {animal.barra(animal.saude)} {animal.saude}"
+        )
+        print(
+            f"{Colors.GREEN}🍖 Fome:{Colors.RESET} {animal.barra(animal.fome)} {animal.fome}"
+        )
+        print(
+            f"{Colors.BLUE}⚡ Energia:{Colors.RESET} {animal.barra(animal.energia)} {animal.energia}"
+        )
+        print(
+            f"{Colors.MAGENTA}😊 Felicidade:{Colors.RESET} {animal.barra(animal.felicidade)} {animal.felicidade}"
+        )
         print(f"{Colors.CYAN}{'=' * 40}{Colors.RESET}")
 
     def get_choice(self):

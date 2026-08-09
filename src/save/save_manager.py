@@ -21,7 +21,7 @@ class SaveManager:
             "idade": pet.idade,
             "vivo": pet.vivo,
             "nivel": pet.nivel,
-            "xp": pet.xp
+            "xp": pet.xp,
         }
 
         with open(SaveManager.SAVE_FILE, "w", encoding="utf-8") as arquivo:
