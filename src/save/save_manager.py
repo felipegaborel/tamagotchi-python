@@ -4,24 +4,29 @@ import os
 
 class SaveManager:
 
-    SAVE_FILE = "src/save/saves/pet.json"
+    SAVE_FILE = os.path.join("src", "save", "saves", "pet.json")
 
     @staticmethod
     def salvar(pet):
 
-        os.makedirs("src/save/saves", exist_ok=True)
+        save_dir = os.path.dirname(SaveManager.SAVE_FILE)
+        os.makedirs(save_dir, exist_ok=True)
+
+        # garante que atributos legados existam
+        if hasattr(pet, "_sync_attributes"):
+            pet._sync_attributes()
 
         dados = {
-            "nome": pet.nome,
-            "especie": pet.especie,
-            "energia": pet.energia,
-            "fome": pet.fome,
-            "felicidade": pet.felicidade,
-            "saude": pet.saude,
-            "idade": pet.idade,
-            "vivo": pet.vivo,
-            "nivel": pet.nivel,
-            "xp": pet.xp
+            "nome": getattr(pet, "nome", getattr(pet, "name", "")),
+            "especie": pet.__class__.__name__,
+            "energia": getattr(pet, "energia", getattr(pet, "energy", 0)),
+            "fome": getattr(pet, "fome", getattr(pet, "hunger", 0)),
+            "felicidade": getattr(pet, "felicidade", getattr(pet, "happiness", 0)),
+            "saude": getattr(pet, "saude", getattr(pet, "health", 0)),
+            "idade": getattr(pet, "idade", getattr(pet, "age", 0)),
+            "vivo": getattr(pet, "esta_vivo", getattr(pet, "alive", False)),
+            "nivel": getattr(pet, "nivel", getattr(pet, "level", 1)),
+            "xp": getattr(pet, "xp", 0),
         }
 
         with open(SaveManager.SAVE_FILE, "w", encoding="utf-8") as arquivo:

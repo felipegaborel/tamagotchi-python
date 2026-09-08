@@ -6,5 +6,7 @@ class Dog(Animal):
         super().__init__(name)
 
     def brincar(self):
+        # Use base behavior and add a small bonus
         super().brincar()
-        self.felicidade = min(100, self.felicidade + 5)
+        self.happiness = min(100, self.happiness + 5)
+        self._sync_attributes()

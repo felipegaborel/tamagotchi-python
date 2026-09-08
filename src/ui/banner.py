@@ -8,7 +8,3 @@ BANNER = r"""
    ╚═╝   ╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝    ╚═╝    ╚═════╝╚═╝  ╚═╝╚═╝
 
 """
-
-from src.ui.banner import BANNER
-
-print(BANNER)

@@ -6,5 +6,7 @@ class Cat(Animal):
         super().__init__(name)
 
     def dormir(self):
+        # Base sleep behavior and extra energy recovery for cats
         super().dormir()
-        self.energia = min(100, self.energia + 10)
+        self.energy = min(100, self.energy + 10)
+        self._sync_attributes()

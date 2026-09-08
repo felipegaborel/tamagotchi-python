@@ -6,5 +6,7 @@ class Dragon(Animal):
         super().__init__(name)
 
     def brincar(self):
+        # Dragons consume more energy when playing
         super().brincar()
-        self.energia = max(0, self.energia - 15)
+        self.energy = max(0, self.energy - 15)
+        self._sync_attributes()
