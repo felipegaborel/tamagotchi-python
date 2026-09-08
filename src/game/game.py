@@ -87,7 +87,17 @@ class Game:
 
             self._trigger_random_event()
             self.menu.show_main_menu()
-            choice = self.menu.get_choice()
+            choice = self.menu.get_choice(timeout=60)
+
+            # Se houve timeout de inatividade, mata o pet
+            if choice is None:
+                print("\nVocê ficou inativo por muito tempo... seu pet não sobreviveu à inatividade.")
+                self.animal.health = 0
+                if hasattr(self.animal, "_sync_attributes"):
+                    self.animal._sync_attributes()
+                # chamar verificar_vida para exibir mensagem e encerrar
+                self.verificar_vida()
+                break
 
             if choice == "1":
                 print(self.actions.alimentar())

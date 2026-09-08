@@ -68,7 +68,19 @@ def main() -> None:
 
             pet.mostrar_status()
 
-            menu_opcao = mostrar_menu()
+            menu_opcao = mostrar_menu(timeout=60)
+
+            # Se houve timeout de inatividade, mata o pet
+            if menu_opcao is None:
+                print("\nVocê ficou inativo por muito tempo... seu pet não sobreviveu à inatividade.")
+                try:
+                    pet.health = 0
+                except Exception:
+                    # fallback para alias PT-BR
+                    pet.saude = 0
+                if hasattr(pet, "_sync_attributes"):
+                    pet._sync_attributes()
+                break
 
             if menu_opcao == "1":
                 pet.alimentar()
