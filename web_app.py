@@ -1,8 +1,16 @@
 # Minimal Flask web interface for Tamagotchi (for testing)
 # Requires: Flask
 
+import os
+import sys
+
+# Ensure 'src' is on sys.path so imports like 'animals.cat' resolve.
+HERE = os.path.dirname(__file__)
+SRC_PATH = os.path.join(HERE, "src")
+if SRC_PATH not in sys.path:
+    sys.path.insert(0, SRC_PATH)
+
 from flask import Flask, request, jsonify, render_template_string, redirect, url_for
-from animals.animal import Animal
 from animals.cat import Cat
 from animals.dog import Dog
 from animals.dragon import Dragon
