@@ -78,5 +78,11 @@ def action():
         pet.bath()
     return redirect(url_for('index'))
 
+@app.route('/health', methods=['GET'])
+def health():
+    # Simple health endpoint for platform healthchecks
+    return ("OK", 200)
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    # For local testing only; in production use gunicorn (Procfile)
+    app.run(debug=True, port=int(os.environ.get('PORT', 5000)))

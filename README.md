@@ -108,16 +108,31 @@ web: gunicorn web_app:app
 
 Deploy automático para Render (configuração recomendada)
 
-1. Crie uma conta em https://render.com e conecte o seu repositório GitHub ao Render.
-2. No painel do Render, crie um novo Web Service apontando para o branch `main`. Configure o comando de start como `gunicorn -w 4 web_app:app` e escolha a porta padrão (Render define $PORT).
-3. Após criar o serviço, copie o `Service ID` (mostrado nas configurações do serviço) — será necessário como secret.
-4. No GitHub do repositório, adicione os seguintes Secrets (Settings → Secrets → Actions):
-   - RENDER_API_KEY — a API key da sua conta Render (crie em Account → API Keys)
-   - RENDER_SERVICE_ID — o Service ID do serviço criado
-5. O repositório já contém um workflow GitHub Actions (`.github/workflows/deploy-render.yml`) que dispara automaticamente em pushes para `main` e chama a API do Render para criar um deploy.
+Opção A — Deploy via integração direta do Render (recomendado, mais simples)
 
-Observações sobre Render:
-- Alternativamente, em vez de usar a API, você pode habilitar deploys automáticos diretamente no painel do Render (conexão GitHub) e não precisar de secrets nem de workflow; escolher a opção depende de sua preferência de controle.
+1. Crie uma conta em https://render.com e conecte o seu repositório GitHub ao Render.
+2. No painel do Render, clique em "New" → "Web Service" e selecione o repositório `felipegaborel/tamagotchi-python`.
+3. Configure o serviço:
+   - Branch: `main`
+   - Build Command: (deixe vazio ou use `pip install -r requirements-web.txt`)
+   - Start Command: `gunicorn -w 4 web_app:app`
+   - Environment: escolha a instance/tamanho desejado (para testes, a free-tier ou a smallest instance é suficiente).
+4. Salve e crie o serviço. O Render fará o build e criará uma URL pública do tipo `https://<your-service>.onrender.com`.
+5. Acesse essa URL para ver a versão web.
+
+Opção B — Deploy via GitHub Actions + Render API (alternativa que já está configurada no repositório)
+
+1. Criar Service no Render (como em A) e copiar o Service ID.
+2. Criar uma API key em Render (Account → API Keys).
+3. No GitHub (Settings → Secrets → Actions) adicione:
+   - RENDER_API_KEY
+   - RENDER_SERVICE_ID
+4. Fazer push para main; o workflow `.github/workflows/deploy-render.yml` será executado e acionará a API do Render para criar um novo deploy.
+
+Observações importantes para Render (diretamente via painel)
+- Certifique-se de ter `requirements-web.txt` com `gunicorn` e `Flask` (já incluso no repo). O Render detecta automaticamente um Procfile se presente; o repositório inclui `Procfile` com `web: gunicorn web_app:app`.
+- Adicione variáveis de ambiente no painel do Render se precisar (por exemplo: configuração de DEBUG, chaves externas, etc.).
+- O endpoint `/health` foi adicionado em `web_app.py` para healthchecks (Render usará sua própria checagem, mas um health endpoint simples é recomendado).
 
 ---
 
