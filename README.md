@@ -106,6 +106,19 @@ web: gunicorn web_app:app
 
 - Assegure-se de adicionar `requirements-web.txt` (renomeie para `requirements.txt` se necessário pelo provedor) e empurre o repositório.
 
+Deploy automático para Render (configuração recomendada)
+
+1. Crie uma conta em https://render.com e conecte o seu repositório GitHub ao Render.
+2. No painel do Render, crie um novo Web Service apontando para o branch `main`. Configure o comando de start como `gunicorn -w 4 web_app:app` e escolha a porta padrão (Render define $PORT).
+3. Após criar o serviço, copie o `Service ID` (mostrado nas configurações do serviço) — será necessário como secret.
+4. No GitHub do repositório, adicione os seguintes Secrets (Settings → Secrets → Actions):
+   - RENDER_API_KEY — a API key da sua conta Render (crie em Account → API Keys)
+   - RENDER_SERVICE_ID — o Service ID do serviço criado
+5. O repositório já contém um workflow GitHub Actions (`.github/workflows/deploy-render.yml`) que dispara automaticamente em pushes para `main` e chama a API do Render para criar um deploy.
+
+Observações sobre Render:
+- Alternativamente, em vez de usar a API, você pode habilitar deploys automáticos diretamente no painel do Render (conexão GitHub) e não precisar de secrets nem de workflow; escolher a opção depende de sua preferência de controle.
+
 ---
 
 ## 🧪 Testes e Lint
