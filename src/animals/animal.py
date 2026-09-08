@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Dict, List
 
-from src.game.achievements import AchievementSystem
+from game.achievements import AchievementSystem
 
 MAX_VALUE = 100
 MIN_VALUE = 0

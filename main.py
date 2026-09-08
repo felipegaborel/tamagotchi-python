@@ -9,14 +9,22 @@ Alterações aplicadas e justificativa (resumo):
 """
 
 from colorama import Fore, Style, init
+import os
+import sys
 
-from src.animals.cat import Cat
-from src.animals.dog import Dog
-from src.animals.dragon import Dragon
-from src.animals.rabbit import Rabbit
-from src.game.game import Game
-from src.ui.banner import BANNER
-from src.ui.menu import limpar_tela, mostrar_menu
+# Ensure src is importable as a package when running main.py from the repo root
+HERE = os.path.dirname(__file__)
+SRC_PATH = os.path.join(HERE, "src")
+if SRC_PATH not in sys.path:
+    sys.path.insert(0, SRC_PATH)
+
+from animals.cat import Cat
+from animals.dog import Dog
+from animals.dragon import Dragon
+from animals.rabbit import Rabbit
+from game.game import Game
+from ui.banner import BANNER
+from ui.menu import limpar_tela, mostrar_menu
 
 init(autoreset=True)
 
