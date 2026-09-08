@@ -7,27 +7,6 @@ from ui.menu import Menu
 
 
 class Game:
-    def passar_tempo(self, pet):
-        pet.idade += 1
-
-        pet.energia = max(0, pet.energia - 5)
-
-        pet.fome = min(100, pet.fome + 8)
-
-        pet.felicidade = max(0, pet.felicidade - 3)
-
-        if pet.fome >= 90:
-            pet.saude = max(0, pet.saude - 10)
-
-        if pet.energia <= 10:
-            pet.saude = max(0, pet.saude - 5)
-
-    def verificar_vida(self, pet):
-        if pet.saude <= 0:
-            pet.vivo = False
-            print("\n💀 Seu pet morreu.")
-            print("Obrigado por jogar.")
-
     def __init__(self):
         self.animal = Animal("Mochi")
         self.actions = Actions(self.animal)
@@ -35,11 +14,31 @@ class Game:
         self.menu = Menu()
         self.velocidade = 1
 
+    def verificar_vida(self) -> bool:
+        """Verifica se o pet ainda está vivo; retorna False se morto."""
+        if self.animal.health <= 0:
+            self.animal.alive = False
+            # sincroniza aliases
+            if hasattr(self.animal, "_sync_attributes"):
+                self.animal._sync_attributes()
+            print("\n💀 Seu pet morreu.")
+            print("Obrigado por jogar.")
+            return False
+        return True
+
     def _apply_turn_decay(self):
+        # Aplica decaimento por turno usando atributos canônicos (inglês)
         self.animal.energy = max(0, self.animal.energy - self.velocidade)
-        self.animal.hunger = min(10, self.animal.hunger + self.velocidade)
-        self.animal.idade += 1
+        self.animal.hunger = min(100, self.animal.hunger + self.velocidade)
+        self.animal.age += 1
         self.animal.happiness = max(0, self.animal.happiness - self.velocidade)
+
+        # efeitos por condições
+        if self.animal.hunger >= 90:
+            self.animal.health = max(0, self.animal.health - 10)
+        if self.animal.energy <= 10:
+            self.animal.health = max(0, self.animal.health - 5)
+
         self.animal._sync_attributes()
 
     def _trigger_random_event(self):
@@ -77,6 +76,11 @@ class Game:
 
         while True:
             self._apply_turn_decay()
+
+            # checa se o pet ainda vive antes de seguir
+            if not self.verificar_vida():
+                break
+
             self._trigger_random_event()
             self.menu.show_main_menu()
             choice = self.menu.get_choice()
@@ -97,4 +101,4 @@ class Game:
                 print("Bye!")
                 break
             else:
-                print("Invalid option.")
+                print("Opção inválida.")

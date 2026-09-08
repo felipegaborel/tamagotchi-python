@@ -21,12 +21,17 @@ class Actions:
         return self.animal.status()
 
     def dar_banho(self):
-        self.animal.saude = min(10, self.animal.saude + 1)
-        self.animal.esta_vivo = True
+        # Use the Animal API rather than direct attribute manipulation
+        self.animal.bath()
+        # Ensure alive flag is set
+        self.animal.alive = True
+        self.animal._sync_attributes()
         LevelSystem.ganhar_xp(self.animal, 2)
         return self.animal.status()
 
     def curar(self):
-        self.animal.saude = min(10, self.animal.saude + 2)
-        self.animal.esta_vivo = True
+        # Heal the animal
+        self.animal.health = min(100, self.animal.health + 20)
+        self.animal.alive = True
+        self.animal._sync_attributes()
         return self.animal.status()

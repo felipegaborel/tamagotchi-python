@@ -1,94 +1,121 @@
+from dataclasses import dataclass, field
+from typing import Dict, List
+
 from src.game.achievements import AchievementSystem
 
+MAX_VALUE = 100
+MIN_VALUE = 0
+BAR_WIDTH = 20
 
+
+@dataclass
 class Animal:
-    def __init__(self, name: str):
-        self.name = name
-        self.nome = name
-        self.idade = 0
-        self.hunger = 5
-        self.fome = self.hunger
-        self.happiness = 5
-        self.felicidade = self.happiness
-        self.energy = 5
-        self.energia = self.energy
-        self.saude = 10
-        self.esta_vivo = True
-        self.nivel = 1
-        self.xp = 0
+    # Core (English) attributes
+    name: str
+    age: int = 0
+    health: int = field(default=100)
+    hunger: int = field(default=50)
+    happiness: int = field(default=50)
+    energy: int = field(default=50)
+    level: int = field(default=1)
+    xp: int = field(default=0)
+    alive: bool = field(default=True)
 
-    def _sync_attributes(self):
+    def __post_init__(self) -> None:
+        # Ensure PT-BR aliases exist and are synchronized
+        self._sync_attributes()
+
+    def _clamp(self, value: int) -> int:
+        return max(MIN_VALUE, min(MAX_VALUE, int(value)))
+
+    def _sync_attributes(self) -> None:
+        # Portuguese aliases (kept for compatibility)
         self.nome = self.name
+        self.idade = self.age
+        self.saude = self.health
         self.fome = self.hunger
         self.felicidade = self.happiness
         self.energia = self.energy
+        self.nivel = self.level
+        self.esta_vivo = self.alive
 
-    def barra(self, valor):
-        total = 20
-        preenchido = int(valor / 5)
-        vazio = total - preenchido
-        return "█" * preenchido + "░" * vazio
-
-    def feed(self):
-        self.hunger = min(10, self.hunger + 1)
+    # Core actions (English)
+    def feed(self, amount: int = 10) -> None:
+        self.hunger = self._clamp(self.hunger - amount)
         self._sync_attributes()
 
-    def play(self):
-        self.happiness = min(10, self.happiness + 1)
-        self.energy = max(0, self.energy - 1)
+    def play(self, energy_cost: int = 10, happiness_gain: int = 15, hunger_increase: int = 10) -> None:
+        self.energy = self._clamp(self.energy - energy_cost)
+        self.happiness = self._clamp(self.happiness + happiness_gain)
+        self.hunger = self._clamp(self.hunger + hunger_increase)
         self._sync_attributes()
 
-    def sleep(self):
-        self.energy = min(10, self.energy + 1)
+    def sleep(self, energy_gain: int = 30, hunger_increase: int = 15) -> None:
+        self.energy = self._clamp(self.energy + energy_gain)
+        self.hunger = self._clamp(self.hunger + hunger_increase)
         self._sync_attributes()
 
-    def alimentar(self):
-        self.fome = max(0, self.fome - 20)
-        self.energia = min(100, self.energia + 10)
-        print(f"\n🍖 {self.nome} foi alimentado!")
+    def bath(self, happiness_gain: int = 5) -> None:
+        self.happiness = self._clamp(self.happiness + happiness_gain)
+        self._sync_attributes()
 
-    def brincar(self):
-        self.felicidade = min(100, self.felicidade + 15)
-        self.energia = max(0, self.energia - 10)
-        self.fome = min(100, self.fome + 10)
-        print(f"\n🎾 {self.nome} brincou bastante!")
+    # Compatibility (Portuguese) aliases — call the English methods
+    def alimentar(self, amount: int = 10) -> None:
+        self.feed(amount)
 
-    def dormir(self):
-        self.energia = min(100, self.energia + 30)
-        self.fome = min(100, self.fome + 15)
-        print(f"\n😴 {self.nome} descansou!")
+    def brincar(self) -> None:
+        # Keep legacy signature (no args)
+        self.play()
 
-    def banho(self):
-        self.felicidade = min(100, self.felicidade + 5)
-        print(f"\n🚿 {self.nome} tomou banho!")
+    def dormir(self) -> None:
+        self.sleep()
 
-    def status(self):
+    def banho(self) -> None:
+        self.bath()
+
+    # Status helpers
+    def status(self) -> Dict:
+        """Return a dict with both English and Portuguese keys (backwards compat)."""
         self._sync_attributes()
         return {
             "name": self.name,
             "nome": self.nome,
+            "age": self.age,
             "idade": self.idade,
+            "health": self.health,
+            "saude": self.saude,
             "hunger": self.hunger,
             "fome": self.fome,
             "happiness": self.happiness,
             "felicidade": self.felicidade,
             "energy": self.energy,
             "energia": self.energia,
-            "saude": self.saude,
+            "level": self.level,
+            "nivel": self.nivel,
+            "xp": self.xp,
+            "alive": self.alive,
             "esta_vivo": self.esta_vivo,
         }
 
-    def mostrar_status(self):
+    def status_bar(self, value: int, width: int = BAR_WIDTH) -> str:
+        v = self._clamp(value)
+        filled = int((v / MAX_VALUE) * width)
+        return "█" * filled + "░" * (width - filled)
+
+    # Keep mostrar_status for UI compatibility (prints formatted status)
+    def mostrar_status(self) -> None:
+        self._sync_attributes()
         print("\n" + "=" * 50)
         print(f"🐶 {self.nome}")
         print()
-        print(f"❤️ Saúde      {self.barra(self.saude)} {self.saude}")
-        print(f"⚡ Energia    {self.barra(self.energia)} {self.energia}")
-        print(f"🍖 Fome       {self.barra(self.fome)} {self.fome}")
-        print(f"😊 Felicidade {self.barra(self.felicidade)} {self.felicidade}")
-        print(f"⭐ Nível: {self.nivel}")
+        print(f"❤️ Saúde      {self.status_bar(self.health)} {self.health}")
+        print(f"⚡ Energia    {self.status_bar(self.energy)} {self.energy}")
+        print(f"🍖 Fome       {self.status_bar(self.hunger)} {self.hunger}")
+        print(f"😊 Felicidade {self.status_bar(self.happiness)} {self.happiness}")
+        print(f"⭐ Nível: {self.level}")
         print(f"✨ XP: {self.xp}/100")
         print("\n🏆 Conquistas")
+        # AchievementSystem is kept; verificar() should accept an Animal instance
         for conquista in AchievementSystem.verificar(self):
             print(conquista)
         print("=" * 50)
