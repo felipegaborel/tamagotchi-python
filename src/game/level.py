@@ -2,6 +2,12 @@ class LevelSystem:
 
     @staticmethod
     def ganhar_xp(pet, quantidade):
+        """Ganha XP e sobe de nível quando atinge 100 XP.
+
+        Nota de alterações:
+        - Usa atributos canônicos (xp, level, health) e sincroniza aliases para compatibilidade.
+        - Centraliza a lógica de aumento de saúde ao subir de nível.
+        """
         # garante que aliases estejam sincronizados
         if hasattr(pet, "_sync_attributes"):
             pet._sync_attributes()

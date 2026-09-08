@@ -2,6 +2,10 @@ class Events:
     def __init__(self, animal):
         self.animal = animal
 
+    # Observações:
+    # - Eventos agora atualizam atributos canônicos (energy/health/happiness) e chamam _sync_attributes()
+    #   para manter compatibilidade com código legado que usa atributos em português.
+
     def pet_encontrou_comida(self):
         # aumenta energia (até 100)
         self.animal.energy = min(100, self.animal.energy + 20)

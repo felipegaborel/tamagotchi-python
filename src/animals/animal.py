@@ -8,6 +8,12 @@ MIN_VALUE = 0
 BAR_WIDTH = 20
 
 
+# Observação de design:
+# Este módulo define atributos canônicos em inglês (name, age, health, hunger, happiness, energy).
+# Para compatibilidade retroativa com código em português, _sync_attributes() cria aliases PT-BR
+# (nome, idade, saude, fome, felicidade, energia, nivel, esta_vivo). As alterações no projeto
+# migraram a maioria do código para usar os atributos canônicos enquanto mantêm os aliases.
+
 @dataclass
 class Animal:
     # Core (English) attributes

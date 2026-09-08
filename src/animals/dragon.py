@@ -1,5 +1,7 @@
 from .animal import Animal
 
+# Nota: subclasses agora usam os atributos canônicos (english) e chamam _sync_attributes()
+# para manter compatibilidade com código que espera aliases em português.
 
 class Dragon(Animal):
     def __init__(self, name: str):

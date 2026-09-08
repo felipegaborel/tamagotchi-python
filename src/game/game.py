@@ -5,6 +5,10 @@ from game.actions import Actions
 from game.events import Events
 from ui.menu import Menu
 
+# Alterações realizadas (comentário):
+# - Centralizei a verificação de vida em verificar_vida() e removi código aninhado incorreto.
+# - Usei atributos canônicos (health, hunger, energy, happiness, age) para facilitar manutenção.
+# - Mantive chamadas para _sync_attributes() para compatibilidade com aliases PT-BR.
 
 class Game:
     def __init__(self):

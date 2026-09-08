@@ -1,5 +1,8 @@
 from game.level import LevelSystem
 
+# Alterações:
+# - Actions agora usa a API do Animal (feed/play/sleep/bath) ao invés de manipular atributos 'saude', 'fome' diretamente.
+# - Isso garante que a lógica de sincronização e limites esteja centralizada em Animal.
 
 class Actions:
     def __init__(self, animal):

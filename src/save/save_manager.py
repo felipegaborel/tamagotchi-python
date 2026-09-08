@@ -8,7 +8,12 @@ class SaveManager:
 
     @staticmethod
     def salvar(pet):
+        """Salva o estado do pet em JSON.
 
+        Observações das alterações:
+        - Usa caminhos construídos com os.path.join para compatibilidade entre plataformas.
+        - Usa getattr(...) para ler atributos de forma segura (compatível com aliases PT-BR e atributos canônicos).
+        """
         save_dir = os.path.dirname(SaveManager.SAVE_FILE)
         os.makedirs(save_dir, exist_ok=True)
 

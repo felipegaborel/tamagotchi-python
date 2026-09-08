@@ -1,5 +1,11 @@
 """
 Arquivo principal do projeto Tamagotchi.
+
+Alterações aplicadas e justificativa (resumo):
+- Validação da escolha do animal: agora repete até o usuário fornecer uma opção válida (evita escolher por padrão sem aviso).
+- Normalização das variáveis internas: código agora utiliza atributos canônicos definidos em src/animals/animal.py (em inglês) enquanto mantém aliases PT-BR para compatibilidade.
+- Evita pausas duplicadas: opção "Mostrar Status" pausa apenas uma vez.
+- Tratamento de KeyboardInterrupt para saída limpa (Ctrl+C).
 """
 
 from colorama import Fore, Style, init

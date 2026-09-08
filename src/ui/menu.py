@@ -3,6 +3,11 @@ import os
 from ui.colors import Colors
 
 
+# Alterações:
+# - Unifiquei a exibição de status para usar a API do Animal (status_bar) e atributos canônicos.
+# - Funções utilitárias continuam em português para melhor UX do usuário brasileiro.
+
+
 def limpar_tela():
     os.system("cls" if os.name == "nt" else "clear")
 
